@@ -29,9 +29,8 @@ public class NeuralNetworkRunner {
 	
 	int[] hiddenLayerSize = {3};
 	
-	//NeuralNetwork neuralNetwork = new NeuralNetwork(2,1,hiddenLayerSize,1);
+	NeuralNetwork neuralNetwork = new NeuralNetwork(2,1,hiddenLayerSize,1);
 	
-	NeuralNetwork neuralNetwork = new NeuralNetwork(2, 3,1);
 
 	for (int iterations = 0; iterations < ITERATIONS; iterations++) {
 
