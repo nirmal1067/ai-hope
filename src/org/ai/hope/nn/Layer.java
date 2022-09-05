@@ -38,7 +38,8 @@ public class Layer implements ILayer {
 	public double[] train(double[] errors, double learningRate, double momentum) {
 		// TODO Auto-generated method stub
 		int offset = 0;
-		double[] nextLayerErrors = new double[input.length];
+		//This method is core as it takes care of calculating derivative in both acrenaro single layer or multi layer. 
+		double[] nextLayerErrors = nextLayerError(errors, learningRate, momentum);
 		for (int i = 0; i < output.length; i++) {
 			double partialDerivative = errors[i] * Functions.DSIGMOID.apply(output[i]);
 
@@ -46,7 +47,7 @@ public class Layer implements ILayer {
 				// This is for next layer becuse we need to consider it for next layer as well
 				// in that it can be
 				int previousWeightIndex = offset + j;
-				nextLayerErrors[j] = nextLayerErrors[j] + (partialDerivative * weights[previousWeightIndex]);
+				//nextLayerErrors[j] = nextLayerErrors[j] + (partialDerivative * weights[previousWeightIndex]);
 
 				// This for for parttial derviate if u check the math then we need to multiple
 				// by actual inputs at this stage
@@ -62,20 +63,29 @@ public class Layer implements ILayer {
 		}
 		return nextLayerErrors;
 	}
+	
+	
+	private double[] nextLayerError(double[] errors, double learningRate, double momentum)
+	{
+		
+		double[] nextErrors = new double[input.length];
+		
+		for(int i =0;i<input.length;i++)
+		{
+			int offset =i;
+			for(int j =0;j<output.length;j++)
+			{
+				double partialDerivative = errors[j] * Functions.DSIGMOID.apply(output[j]);
+				nextErrors[i] = nextErrors[i] + (partialDerivative *  weights[offset]);
+				offset= offset +output.length;
+			}
+		}
+		
+		return nextErrors;
+	}
 
 
-//	@Override
-//	public double[] predict(double[] inputs) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//
-//	@Override
-//	public double[] train(double[] errors, double learningRate, double momentum) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+
 
 
 
