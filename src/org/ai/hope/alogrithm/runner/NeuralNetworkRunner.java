@@ -1,5 +1,6 @@
 package org.ai.hope.alogrithm.runner;
 
+import org.ai.hope.nn.Logger;
 import org.ai.hope.nn.NeuralNetwork;
 
 
@@ -7,7 +8,7 @@ import org.ai.hope.nn.NeuralNetwork;
 public class NeuralNetworkRunner {
 	public static final double LEARNING_RATE = 0.3d;
 	public static final double MOMENTUM = 0.6d;
-	public static final int ITERATIONS = 100000;
+	public static final int ITERATIONS = 300000;
 
 	
 	public static void main(String[] args)
@@ -27,9 +28,9 @@ public class NeuralNetworkRunner {
 			new double[] { 0 } 
 	};
 	
-	int[] hiddenLayerSize = {3};
-	
-	NeuralNetwork neuralNetwork = new NeuralNetwork(2,1,hiddenLayerSize,1);
+	int[] hiddenLayerSize = {50,50};
+	//Logger.ENABLE_DEBUG_MODE=true;
+	NeuralNetwork neuralNetwork = new NeuralNetwork(2,2,hiddenLayerSize,1);
 	
 
 	for (int iterations = 0; iterations < ITERATIONS; iterations++) {
@@ -42,8 +43,8 @@ public class NeuralNetworkRunner {
 		System.out.println();
 		for (int i = 0; i < trainingResults.length; i++) {
 			double[] t = trainingData[i];
-			System.out.printf("%d epoch\n", iterations + 1);
-			System.out.printf("%.1f, %.1f --> %.3f\n", t[0], t[1], neuralNetwork.predict(t)[0]);
+			Logger.info("Epoch: "+ iterations + 1);
+			Logger.info(" Training data " +  t[0]+","+ t[1] +" Actual data:  "+neuralNetwork.predict(t)[0]);
 		}
 	}
 	

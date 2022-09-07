@@ -28,6 +28,8 @@ public class Layer implements ILayer {
 			//weights[i] = random.nextdouble();
 			weights[i] = (random.nextDouble() - 0.5d) * 4d;
 		}
+		
+		Logger.debug(" while initlializing Input network size: "+ input.length + " Output Layer Size: " + output.length + " Weights size "+ weights.length);
 	}
 	
 
@@ -70,6 +72,8 @@ public class Layer implements ILayer {
 		
 		double[] nextErrors = new double[input.length];
 		
+		Logger.debug("Input network size: "+ input.length + " Output Layer Size: " + output.length + " Weights size "+ weights.length);
+		
 		for(int i =0;i<input.length;i++)
 		{
 			int offset =i;
@@ -77,7 +81,7 @@ public class Layer implements ILayer {
 			{
 				double partialDerivative = errors[j] * Functions.DSIGMOID.apply(output[j]);
 				nextErrors[i] = nextErrors[i] + (partialDerivative *  weights[offset]);
-				offset= offset +output.length;
+				offset= offset +input.length;
 			}
 		}
 		

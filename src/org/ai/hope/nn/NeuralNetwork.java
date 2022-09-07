@@ -14,6 +14,7 @@ public class NeuralNetwork implements INeuralNetwork {
 	private void initilizeLayers(int inputs, int hiddenLayers, int[] hiddeLayerSizes, int outPuts) {
 		// Initialize neural network with proper layers
 		for (int i = 0; i < layers.length; i++) {
+			Logger.debug("Initializtaion for layer "+ i);
 			if (i == 0) {
 				layers[i] = new Layer(inputs, hiddeLayerSizes[i]);
 				continue;
@@ -51,7 +52,9 @@ public class NeuralNetwork implements INeuralNetwork {
 		}
 
 		for (int i = layers.length - 1; i >= 0; i--) {
+			Logger.debug(" Starting layer " + i);
 			errors = layers[i].train(errors, learningRate, momentum);
+			Logger.debug(" Ending layer " + i);
 		}
 
 	}
