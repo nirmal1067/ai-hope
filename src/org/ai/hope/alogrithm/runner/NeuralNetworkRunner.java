@@ -1,6 +1,6 @@
 package org.ai.hope.alogrithm.runner;
 
-import org.ai.hope.nn.Logger;
+import org.ai.hope.core.util.Logger;
 import org.ai.hope.nn.NeuralNetwork;
 
 

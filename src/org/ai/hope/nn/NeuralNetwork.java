@@ -1,5 +1,9 @@
 package org.ai.hope.nn;
 
+import org.ai.hope.core.ILayer;
+import org.ai.hope.core.INeuralNetwork;
+import org.ai.hope.core.util.Logger;
+
 public class NeuralNetwork implements INeuralNetwork {
 
 	private ILayer[] layers;

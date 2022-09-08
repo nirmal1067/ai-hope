@@ -1,4 +1,6 @@
-package org.ai.hope.nn;
+package org.ai.hope.core.util;
+
+import java.util.Arrays;
 
 public class Logger {
 	
@@ -13,5 +15,14 @@ public class Logger {
 	{
 		if(ENABLE_DEBUG_MODE)
 		System.out.println(log);
+	}
+	
+	
+	public static void printMatrix(double[][] matrix)
+	{
+		for(int r=0;r<matrix.length;r++)
+		{
+			Logger.info(Arrays.toString(matrix[r]));
+		}
 	}
 }

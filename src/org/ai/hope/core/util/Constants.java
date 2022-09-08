@@ -1,4 +1,4 @@
-package org.ai.hope.nn;
+package org.ai.hope.core.util;
 
 public interface Constants {
 

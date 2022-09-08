@@ -3,6 +3,9 @@ package org.ai.hope.nn;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.ai.hope.core.ILayer;
+import org.ai.hope.core.util.Logger;
+
 public class Layer implements ILayer {
 
 	private double[] weights;
