@@ -1,8 +1,5 @@
 package org.ai.hope.matrix.nn;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
-
 public class MatrixOperations {
 
 	// TODO u can do better , below codes time complexity id too bad.
@@ -34,6 +31,27 @@ public class MatrixOperations {
 		}
 		
 		return resultMatrix;
+	}
+	
+	
+	public static double[][] matrixTranspose(double[][] input)
+	{
+		if(input==null || input[0].length<=0)
+		{
+			throw new RuntimeException("Please provide proper matrix as input");
+		}
+		
+		double[][] result = new double[input[0].length][input.length];
+		
+		for(int r=0;r<input.length;r++)
+		{
+			for(int c=0;c<input[0].length;c++)
+			{
+				result[c][r]= input[r][c];
+			}
+		}
+		
+		return result;
 	}
 	
 	
