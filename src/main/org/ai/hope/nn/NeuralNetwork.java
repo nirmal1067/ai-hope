@@ -9,7 +9,7 @@ public class NeuralNetwork implements INeuralNetwork {
 	private ILayer[] layers;
 
 	public NeuralNetwork(int inputs, int hiddenLayers, int[] hiddeLayerSizes, int outPuts) {
-		layers = new Layer[hiddenLayers + outPuts];
+		layers = new Layer[hiddenLayers + 1];
 
 		initilizeLayers(inputs, hiddenLayers, hiddeLayerSizes, outPuts);
 

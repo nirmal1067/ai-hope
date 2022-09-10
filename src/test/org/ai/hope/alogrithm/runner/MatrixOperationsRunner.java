@@ -9,19 +9,56 @@ public class MatrixOperationsRunner {
 	
 	public static void main(String[] args)
 	{
-		//testMatrixMultiplication();
+		testMatrixMultiplication();
 		
-		testMatrixTranspose();
+		//testMatrixTranspose();
 	}
 	
 	private static void testMatrixMultiplication()
 	{
+		
 		double[][] inputs = new double[][] { 
-			new double[] { 2, 3 }
+			new double[] { 2, 3 ,3}
 			
 	   };
 	   
 		double[][] weights = new double[][] { 
+			new double[] { 2}, 
+			new double[] { 5},
+			new double[] { 2}, 
+			new double[] { 5}
+		};
+		
+		Logger.info("======Test0========");
+		double[][] result = MatrixOperations.MatrixMultiplication(inputs, weights);
+		
+		Logger.printMatrix(result);
+		
+		 weights = new double[][] { 
+			new double[] { 2, 3 ,3}
+			
+	   };
+	   
+		 inputs = new double[][] { 
+			new double[] { 2}, 
+			new double[] { 5},
+			new double[] { 2}, 
+			new double[] { 5}
+		};
+		
+		Logger.info("======Test0.1========");
+		
+		
+		result = MatrixOperations.MatrixMultiplication(inputs, weights);
+		
+		Logger.printMatrix(result);
+		
+		 inputs = new double[][] { 
+			new double[] { 2, 3 }
+			
+	   };
+	   
+		 weights = new double[][] { 
 			new double[] { 2,3,4 }, 
 			new double[] { 5,6,7}
 		};
@@ -29,7 +66,7 @@ public class MatrixOperationsRunner {
 		Logger.info("======Test1========");
 		
 		
-		double[][] result = MatrixOperations.matrixMultiplication(inputs, weights);
+		result = MatrixOperations.MatrixMultiplication(inputs, weights);
 		
 		Logger.printMatrix(result);
 		
@@ -46,7 +83,7 @@ public class MatrixOperationsRunner {
 			new double[] { 11,12}
 		};
 		
-		double[] [] result2 = MatrixOperations.matrixMultiplication(inputs, weights);
+		double[] [] result2 = MatrixOperations.MatrixMultiplication(inputs, weights);
 		Logger.printMatrix(result2);
 	}
 	

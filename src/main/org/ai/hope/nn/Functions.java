@@ -20,5 +20,21 @@ public class Functions {
 
 		return x*(1-x);
 	};
+	
+	public static BiFunction<Double, Double, Double> ADDITION = (s, d) -> {
 
+		return s+d;
+	};
+	
+	public static BiFunction<Double, Double, Double> SUBSTRACTION = (s, d) -> {
+
+		return s-d;
+	};
+	
+	public static BiFunction<Double, Double, Double> MULTIPLY = (s, d) -> {
+
+		return s*d;
+	};
+
+	
 }

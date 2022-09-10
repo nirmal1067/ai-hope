@@ -1,12 +1,12 @@
 package org.ai.hope.matrix.nn;
 
-import java.util.function.Consumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class MatrixOperations {
 
 	// TODO u can do better , below codes time complexity id too bad.
-	public static double[][] matrixMultiplication(double[][] input,double[][] weights)
+	public static double[][] MatrixMultiplication(double[][] input,double[][] weights)
 	{
 		if(input==null || weights==null || input[0].length<=0 || weights[0].length<=0)
 		{
@@ -72,6 +72,51 @@ public class MatrixOperations {
 		return resultMatrix;
 	}
 	
+	
+	public static double[][] MatrixScalerOperation(double[][] leftMatrix,double[][] rightMatrix, BiFunction<Double, Double,Double> opertaion)
+	{
+		double[][] resultMatrix = new double[leftMatrix.length][leftMatrix[0].length];
+		
+		for(int r=0;r<resultMatrix.length;r++)
+		{
+			for(int c=0;c<resultMatrix[0].length;c++)
+			{
+				resultMatrix[r][c]= opertaion.apply(leftMatrix[r][c], rightMatrix[r][c]);
+			}
+		}
+		
+		return resultMatrix;
+	}
+	
+	
+	public static double[][] MatrixScalerOperation(double[][] leftMatrix,double value, BiFunction<Double, Double,Double> opertaion)
+	{
+		double[][] resultMatrix = new double[leftMatrix.length][leftMatrix[0].length];
+		
+		for(int r=0;r<resultMatrix.length;r++)
+		{
+			for(int c=0;c<resultMatrix[0].length;c++)
+			{
+				resultMatrix[r][c]= opertaion.apply(leftMatrix[r][c], value);
+			}
+		}
+		
+		return resultMatrix;
+	}
+	
+	public static double[][] DeepCopy(double[][] source)
+	{
+		double[][] resultMatrix = new double[source.length][source[0].length];
+		for(int r =0;r<source.length;r++)
+		{
+			for(int c=0;c<source[0].length;c++)
+			{
+				resultMatrix[r][c]= source[r][c];
+			}
+		}
+		
+		return resultMatrix;
+	}
 	
 
 }
