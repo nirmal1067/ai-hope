@@ -1,5 +1,8 @@
 package org.ai.hope.matrix.nn;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public class MatrixOperations {
 
 	// TODO u can do better , below codes time complexity id too bad.
@@ -54,6 +57,20 @@ public class MatrixOperations {
 		return result;
 	}
 	
+	
+	public static double[][] ApplyActivationFunction(double[][] matrix, Function<Double, Double> activationFunction)
+	{
+		double[][] resultMatrix = new double[matrix.length][matrix[0].length];
+		for( int r=0;r<matrix.length;r++)
+		{
+			for(int c=0;c<matrix[0].length;c++)
+			{
+				resultMatrix[r][c]= activationFunction.apply(matrix[r][c]);
+			}
+		}
+		
+		return resultMatrix;
+	}
 	
 	
 
