@@ -20,9 +20,16 @@ public class Logger {
 	
 	public static void printMatrix(double[][] matrix)
 	{
+		if(ENABLE_DEBUG_MODE)
 		for(int r=0;r<matrix.length;r++)
 		{
 			Logger.info(Arrays.toString(matrix[r]));
 		}
+	}
+	
+	public static void printMatrixDimensions(String matrixName,double[][] matrix)
+	{
+		if(ENABLE_DEBUG_MODE)
+		Logger.info("Dimension of matrix: " +matrixName+ " Rows: "+ matrix.length +" Columns: " + matrix[0].length);
 	}
 }

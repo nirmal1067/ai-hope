@@ -118,5 +118,18 @@ public class MatrixOperations {
 		return resultMatrix;
 	}
 	
+	public static double[][] DeepCopyingValues(double[] [] source, double[][] destination)
+	{
+		for(int r =0;r<source.length;r++)
+		{
+			for(int c=0;c<source[0].length;c++)
+			{
+				destination[r][c]= source[r][c];
+			}
+		}
+		
+		return destination;
+	}
+	
 
 }
