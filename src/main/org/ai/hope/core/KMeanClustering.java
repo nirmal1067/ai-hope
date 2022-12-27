@@ -17,7 +17,7 @@ public class KMeanClustering {
 
 	private int numberOfFeatures;
 
-	private int numberEpochs = 100;
+	private int numberEpochs = 1000;
 
 	public KMeanClustering(List<Double[]> featuresData, int numberOfClusters, int numberOfFeatures) {
 		this.featuresData = featuresData;

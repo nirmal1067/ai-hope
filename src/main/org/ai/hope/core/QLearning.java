@@ -2,6 +2,8 @@ package org.ai.hope.core;
 
 import java.util.Random;
 
+import org.ai.hope.core.util.Logger;
+
 public class QLearning {
 
 	private double[][][] qValues;
@@ -103,7 +105,7 @@ public class QLearning {
 		return rValues[r][c][a] != 1 ? true : false;
 	}
 
-	private int randomValue(int inclusiveLow, int exclusiveHigh) {
+	public int randomValue(int inclusiveLow, int exclusiveHigh) {
 		Random r = new Random();
 		int low = inclusiveLow;
 		int high = exclusiveHigh;
@@ -137,6 +139,7 @@ public class QLearning {
 				}
 			}
 		}
+		Logger.printMatrix3D(rValues);
 	}
 
 	public double[][][] getqValues() {

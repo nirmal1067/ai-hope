@@ -15,8 +15,8 @@ public class KMeanClusteringRunner {
 
 		Double[] data1 = { .23d, .34d, .67d };
 		Double[] data2 = { .23d, .84d, .47d };
-		Double[] data3 = { .21d, .64d, .97d };
-		Double[] data4 = { .13d, .84d, .899d };
+		Double[] data3 = { .04d, .06d, .08d };
+		Double[] data4 = { .04d, .05d, .08d };
 		
 		dataSet.add(data4);
 		dataSet.add(data3);
