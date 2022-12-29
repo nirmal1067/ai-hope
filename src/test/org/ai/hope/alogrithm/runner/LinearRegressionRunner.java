@@ -10,14 +10,16 @@ public class LinearRegressionRunner {
 	
 	private static LinearRegression linearRegression;
 
+	// Tested with sample data at below link 
+	// https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/frame.html
 	public static void trainModel() {
-		CSVParser csvParser = new CSVParser("C:\\\\Codebase\\\\DataSet\\\\Fish.csv", 1, 5, 6);
+		CSVParser csvParser = new CSVParser("C:\\\\Codebase\\\\DataSet\\\\sample.csv", 0, 0, 1);
 		csvParser.parse();
 		
 		double[][] trainSet = csvParser.trainData();
 		double[] result = csvParser.results();
 
-		linearRegression = new LinearRegression(trainSet[0].length, 1);
+		linearRegression = new LinearRegression(trainSet[0].length, 1000);
 		
 		linearRegression.train(trainSet, result);
 		// Logger.printMatrix3D(learning.getqValues());

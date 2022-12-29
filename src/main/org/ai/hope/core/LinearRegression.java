@@ -3,6 +3,8 @@ package org.ai.hope.core;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.ai.hope.core.util.Logger;
+
 public class LinearRegression implements IModel {
 
 	private double beta;
@@ -41,6 +43,7 @@ public class LinearRegression implements IModel {
 		// Stochastic Gradient descent
 
 		for (int e = 0; e < epochs; e++) {
+			double mse = 0d;
 			for (int i = 0; i < trainData.length; i++) {
 				double[] tempInput = trainData[i];
 
@@ -49,21 +52,19 @@ public class LinearRegression implements IModel {
 				double predictedValue = predictedValueOptional.get();
 
 				double error = predictedValue - result[i];
-				
-				System.out.println("Error: " + error);
-				
-				//System.out.println(" Input : " + Arrays.toString(tempInput));
+				mse = error * error + mse;
 
 				for (int j = 0; j < weights.length; j++) {
 					weights[j] = weights[j] - learningRate * error * tempInput[j];
-					
 
 				}
-				System.out.println(" Weights: " + Arrays.toString(weights));
 				beta = beta - learningRate * error;
-				System.out.println(" Beta: " + beta);
-				
+
 			}
+
+			mse = (Math.sqrt(mse)) / trainData.length;
+
+			Logger.info(" MSE " + mse + " Weights " + Arrays.toString(weights) + " Beta " + beta);
 		}
 
 	}
