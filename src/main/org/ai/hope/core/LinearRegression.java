@@ -2,6 +2,7 @@ package org.ai.hope.core;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.ai.hope.core.util.Logger;
 
@@ -14,6 +15,8 @@ public class LinearRegression implements IModel {
 	private double learningRate = 0.001d;
 
 	private int epochs;
+	
+	//private Function<T, R>
 
 	public LinearRegression(int featuresCount, int epochs) {
 		weights = new double[featuresCount];
@@ -67,6 +70,96 @@ public class LinearRegression implements IModel {
 			Logger.info(" MSE " + mse + " Weights " + Arrays.toString(weights) + " Beta " + beta);
 		}
 
+	}
+
+	@Override
+	public void trainSGD(double[][] trainData, double[] result) {
+		// TODO Auto-generated method stub
+		if (trainData == null || trainData.length <= 0) {
+			throw new RuntimeException("Input data can not be null");
+		}
+
+		// Stochastic Gradient descent
+
+		for (int e = 0; e < epochs; e++) {
+			double mse = 0d;
+			for (int i = 0; i < trainData.length; i++) {
+				double[] tempInput = trainData[i];
+
+				Optional<Double> predictedValueOptional = this.predict(tempInput);
+
+				double predictedValue = predictedValueOptional.get();
+
+				double error = predictedValue - result[i];
+				mse = error * error + mse;
+
+				for (int j = 0; j < weights.length; j++) {
+					weights[j] = weights[j] - learningRate * error * tempInput[j];
+
+				}
+				beta = beta - learningRate * error;
+
+			}
+
+			mse = (Math.sqrt(mse)) / trainData.length;
+
+			Logger.info(" MSE " + mse + " Weights " + Arrays.toString(weights) + " Beta " + beta);
+		}
+		
+	}
+
+	@Override
+	public void trainBGD(double[][] trainData, double[] result) {
+		// TODO Auto-generated method stub
+		if (trainData == null || trainData.length <= 0) {
+			throw new RuntimeException("Input data can not be null");
+		}
+
+		// Stochastic Gradient descent
+		
+		
+
+		for (int e = 0; e < epochs; e++) {
+			double tempBeta = beta;
+			double[] tempWeights = new double[weights.length];
+			
+			for(int i =0;i<weights.length;i++)
+			{
+				tempWeights[i]=weights[i];
+			}
+			
+			double mse = 0d;
+			for (int i = 0; i < trainData.length; i++) {
+				double[] tempInput = trainData[i];
+
+				Optional<Double> predictedValueOptional = this.predict(tempInput);
+
+				double predictedValue = predictedValueOptional.get();
+
+				double error = predictedValue - result[i];
+				mse = error * error + mse;
+
+				for (int j = 0; j < weights.length; j++) {
+					tempWeights[j] = weights[j] - learningRate * error * tempInput[j];
+
+				}
+				tempBeta = beta - learningRate * error;
+
+			}
+
+			weights = tempWeights;
+			beta = tempBeta;
+			mse = (Math.sqrt(mse)) / trainData.length;
+
+			Logger.info(" MSE " + mse + " Weights " + Arrays.toString(weights) + " Beta " + beta);
+		}
+		
+	}
+
+	@Override
+	public void trainMGD(double[][] trainData, double[] result) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

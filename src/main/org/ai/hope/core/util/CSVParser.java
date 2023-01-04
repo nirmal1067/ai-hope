@@ -86,9 +86,70 @@ public class CSVParser {
 	public double[] results() {
 		return result;
 	}
+	
+	
+public static double myPow(double x, int n) {
+
+    
+        
+        if(n==1)
+        {
+            return x;
+        }
+
+        if(n==2)
+        {
+            return x * x;
+        }
+
+   
+
+        if(n==0)
+        {
+            return 1;
+        }
+
+        if(n<0)
+        {
+            x = 1/x;
+            n = n*-1;
+        }
+
+        if(n%2==0)
+        {
+            double first = myPow(x,n/2);
+           // System.out.println("First Result " + first + " Number "+ n + " Next element " + n/2);
+            double result = 0;
+           // if(n<0)
+           // {
+            //   result = 1/(first * first);
+           // }else
+           // {
+                result = first * first;
+           // }
+            return result;
+        }else
+        {
+            double first = myPow(x,n/2);
+           // System.out.println("First Result " + first + " Number "+ n + " Next element " + n/2);
+            double result = 0;
+            // if(n<0)
+            //{
+            //   result = 1/(first * first);
+           // }else
+           // {
+                result = first * first * x;
+           // }
+            return result;
+            //return first * first * x;
+        }
+    }
 
 	public static void main(String[] args) {
-		CSVParser csvParser = new CSVParser("C:\\\\Codebase\\\\DataSet\\\\Fish.csv", 1, 5, 6);
-		csvParser.parse();
+		//CSVParser csvParser = new CSVParser("C:\\\\Codebase\\\\DataSet\\\\Fish.csv", 1, 5, 6);
+		//csvParser.parse();
+		//double test = myPow(2.0, -2147483648);
+		
+		System.out.println(-2147483648*-1);
 	}
 }

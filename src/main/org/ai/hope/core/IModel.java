@@ -6,6 +6,10 @@ public interface IModel {
 	
 	public Optional<Double> predict(double[] inputs);
 	
-	public void train(double[][] trainData, double[] result);
+	public void trainSGD(double[][] trainData, double[] result);
+	
+	public void trainBGD(double[][] trainData, double[] result);
+	
+	public void trainMGD(double[][] trainData, double[] result);
 
 }
