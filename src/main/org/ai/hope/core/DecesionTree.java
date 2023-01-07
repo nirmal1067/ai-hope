@@ -1,5 +1,7 @@
 package org.ai.hope.core;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,23 +19,22 @@ public class DecesionTree {
 
 		public Function<Double[], Boolean> question;
 
-		public boolean isLeaf;
+		private boolean isLeaf;
 
 		// public Double impurity;
 
-		public TreeNode left;
+		private TreeNode left;
 
-		public TreeNode right;
-		
-		public Double prediction;
+		private TreeNode right;
+
+		private Double prediction;
 	}
 
 	private TreeNode root;
 
 	private BiFunction<Integer, List<Double[]>, Double> gini = (index, data) -> {
 
-		if(data.size()<=0)
-		{
+		if (data.size() <= 0) {
 			return 0.0d;
 		}
 		Double impurity = 1.0d;
@@ -41,7 +42,7 @@ public class DecesionTree {
 		HashMap<Double, Integer> frequencyMap = findFreqMap(data, index);
 
 		for (Double key : frequencyMap.keySet()) {
-			double probablity = (double)frequencyMap.get(key) / (double)data.size();
+			double probablity = (double) frequencyMap.get(key) / (double) data.size();
 
 			impurity = impurity - Math.pow(probablity, 2);
 
@@ -94,9 +95,11 @@ public class DecesionTree {
 			Double value) {
 		Function<Double[], Boolean> partitonFunction = question.apply(index, value);
 		HashMap<String, List<Double[]>> partitionData = partitionByQuestion(partitonFunction, data);
-		
-		// Edge case if size is zero 
-		double leftProability = partitionData.get(LEFT_CHILD).size()>0?((double)partitionData.get(LEFT_CHILD).size() / (double)data.size()):0.0d;
+
+		// Edge case if size is zero
+		double leftProability = partitionData.get(LEFT_CHILD).size() > 0
+				? ((double) partitionData.get(LEFT_CHILD).size() / (double) data.size())
+				: 0.0d;
 		double leftGini = gini.apply(index, partitionData.get(LEFT_CHILD));
 		double rightProability = 1 - leftProability;
 		double rightGini = gini.apply(index, partitionData.get(RIGHT_CHILD));
@@ -119,23 +122,21 @@ public class DecesionTree {
 	};
 
 	public TreeNode buildTree(List<Double[]> data, Integer labelColumnIndex) {
-		if(data.size()<=0)
-		{
-			return null; 
+		if (data.size() <= 0) {
+			return null;
 		}
-		//Double impurity = null;
-		//if (root == null) {
-		Double	impurity = gini.apply(labelColumnIndex, data);
-	//	}
-			
-	        
-			if (impurity.compareTo(0.0d) == 0) {
+		// Double impurity = null;
+		// if (root == null) {
+		Double impurity = gini.apply(labelColumnIndex, data);
+		// }
 
-				TreeNode node = new TreeNode();
-				node.isLeaf=true;
-				node.prediction=data.get(0)[labelColumnIndex];
-				return node;
-			}
+		if (impurity.compareTo(0.0d) == 0) {
+
+			TreeNode node = new TreeNode();
+			node.isLeaf = true;
+			node.prediction = data.get(0)[labelColumnIndex];
+			return node;
+		}
 
 		// TODO Leaf node concept and how to use question while classifying
 		Double bestInformationGain = 0.0d;
@@ -149,7 +150,8 @@ public class DecesionTree {
 			HashSet<Double> uniqueDataPoints = getUniqueDataPoints(data, i);
 
 			for (Double value : uniqueDataPoints) {
-				Double tempInformationGain = informationGain(impurity, questionGenerator, data, labelColumnIndex, value);
+				Double tempInformationGain = informationGain(impurity, questionGenerator, data, labelColumnIndex,
+						value);
 
 				if (bestInformationGain.compareTo(tempInformationGain) == -1) {
 					bestInformationGain = tempInformationGain;
@@ -160,8 +162,6 @@ public class DecesionTree {
 
 		}
 
-		
-
 		Function<Double[], Boolean> question = questionGenerator.apply(finalIndex, finalValue);
 		TreeNode node = new TreeNode();
 		node.question = question;
@@ -169,7 +169,7 @@ public class DecesionTree {
 		if (root == null) {
 			root = node;
 		}
-		
+
 		HashMap<String, List<Double[]>> partitionedData = partitionByQuestion(question, data);
 
 		TreeNode left = buildTree(partitionedData.get(LEFT_CHILD), labelColumnIndex);
@@ -177,8 +177,6 @@ public class DecesionTree {
 
 		node.right = right;
 		node.left = left;
-
-		
 
 		return node;
 
@@ -194,27 +192,53 @@ public class DecesionTree {
 
 		return uniqueDataPoints;
 	}
-	
-	
-	public static void main(String[] args)
-	{
+
+	public double predict(Double[] data) {
+		if (data != null && data.length > 0) {
+			TreeNode node = root;
+
+			while (!node.isLeaf) {
+				boolean result = node.question.apply(data);
+
+				node = result ? node.right : node.left;
+			}
+
+			return node.prediction;
+		}
+
+		return -1d;
+	}
+
+	public static void main(String[] args) {
 		List<Double[]> dataSet = new ArrayList<>();
 
-		Double[] data1 = { .23d, .34d, .67d ,0.1d};
-		Double[] data2 = { .23d, .84d, .47d ,0.1d};
-		Double[] data3 = { .21d, .64d, .97d ,0.1d};
-		Double[] data4 = { .13d, .84d, .47d ,0.2d};
-		Double[] data5 = { .13d, .88d, .99d ,0.2d};
-		
+		Double[] data1 = { .23d, .34d, .67d, 0.1d };
+		Double[] data2 = { .23d, .84d, .47d, 0.1d };
+		Double[] data3 = { .21d, .64d, .97d, 0.1d };
+		Double[] data4 = { .13d, .84d, .47d, 0.2d };
+		Double[] data5 = { .13d, .88d, .99d, 0.2d };
+
 		dataSet.add(data4);
 		dataSet.add(data3);
 		dataSet.add(data2);
 		dataSet.add(data1);
 		dataSet.add(data5);
-		
+
 		DecesionTree tree = new DecesionTree();
-		tree.buildTree(dataSet, data1.length-1);
+		tree.buildTree(dataSet, data1.length - 1);
 		System.out.println("Tree building completed");
+
+		// Prediction test
+
+		double result = tree.predict(data1);
+
+		assertTrue(result == data1[3]);
+		System.out.println("Result " + result);
+		
+		 result = tree.predict(data4);
+
+		assertTrue(result == data4[3]);
+		System.out.println("Result " + result);
 	}
 
 }

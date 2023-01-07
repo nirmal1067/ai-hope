@@ -12,6 +12,8 @@ public class LinearRegressionMatrixBased {
 	private double learningRate = 0.001d;
 
 	private int epochs;
+	
+	
 
 	// private Function<T, R>
 
@@ -21,6 +23,7 @@ public class LinearRegressionMatrixBased {
 	}
 
 	public double[][] predict(double[][] inputs) {
+		
 		if (inputs == null || inputs.length <= 0) {
 
 			throw new RuntimeException("Input parameters can not be null or blank");

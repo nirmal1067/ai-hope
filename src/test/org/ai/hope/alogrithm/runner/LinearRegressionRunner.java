@@ -12,7 +12,7 @@ public class LinearRegressionRunner {
 
 	// Tested with sample data at below link 
 	// https://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/slr/frames/frame.html
-	public static void trainModel() {
+	public static void trainModel1() {
 		CSVParser csvParser = new CSVParser("C:\\\\Codebase\\\\DataSet\\\\sample.csv", 0, 0, 1);
 		csvParser.parse();
 		
@@ -25,10 +25,11 @@ public class LinearRegressionRunner {
 		// Logger.printMatrix3D(learning.getqValues());
 	}
 
-	public static void main(String[] args) {
-		trainModel();
-		//testRandom();
-	}
+//	public static void main(String[] args) {
+//		//trainModel();
+//		trainModel1();
+//		//testRandom();
+//	}
 
 	private static void testRandom() {
 		double[][] trainingData = new double[][] { new double[] { 0, 0, 0, 1 }, new double[] { 0, -1, 0, 0 },
@@ -42,6 +43,21 @@ public class LinearRegressionRunner {
 			assertTrue(value < 4);
 		}
 
+	}
+	
+	private static void trainModel()
+	{
+		double[][] trainSet = {{20},{16},{19.8},{18.4},{17.1},{15.5}};
+		double[] result = {88.6,71.6,93.3,84.3,80.6,75.2};
+		LinearRegression linearRegression = new LinearRegression(trainSet[0].length, 1000);
+		linearRegression.train(trainSet, result);
+		
+	}
+	
+	public static void main(String[] args) {
+		//trainModel();
+		trainModel1();
+		//testRandom();
 	}
 
 }

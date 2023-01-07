@@ -2,7 +2,6 @@ package org.ai.hope.core;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.ai.hope.core.util.Logger;
 
@@ -78,7 +77,6 @@ public class LinearRegression implements IModel {
 		if (trainData == null || trainData.length <= 0) {
 			throw new RuntimeException("Input data can not be null");
 		}
-
 		// Stochastic Gradient descent
 
 		for (int e = 0; e < epochs; e++) {
@@ -102,7 +100,6 @@ public class LinearRegression implements IModel {
 			}
 
 			mse = (Math.sqrt(mse)) / trainData.length;
-
 			Logger.info(" MSE " + mse + " Weights " + Arrays.toString(weights) + " Beta " + beta);
 		}
 		
