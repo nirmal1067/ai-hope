@@ -32,6 +32,11 @@ public class KMeanClustering {
 		return refiningKClusters();
 	}
 
+	public int getRandomNumberUsingNextInt(int min, int max) {
+		Random random = new Random();
+		return random.nextInt(max - min) + min;
+	}
+
 	/*
 	 * This method creates k clusters and initialize their value to initial random
 	 * values
@@ -40,20 +45,14 @@ public class KMeanClustering {
 	private void initializeModel() {
 		clusters = new HashMap<>();
 		clusterCentroidValues = new HashMap<>();
-		Random random = new Random();
 		for (int i = 0; i < numberOfClusters; i++) {
 			List<Double[]> list = new ArrayList<>();
-			Double[] initialValues = new Double[numberOfFeatures];
-
-			for (int j = 0; j < numberOfFeatures; j++) {
-
-				initialValues[j] = random.nextDouble();
-			}
-
+			int randomIndex = getRandomNumberUsingNextInt(0, featuresData.size());
+			Double[] initialValues = featuresData.get(randomIndex);
 			String clusterId = "" + i;
 			clusterCentroidValues.put(clusterId, initialValues);
 			System.out.println(" Initial  centroid value for Cluster: " + clusterId + " Values : "
-					+ Arrays.toString(initialValues) );
+					+ Arrays.toString(initialValues));
 			clusters.put(clusterId, list);
 		}
 	}
@@ -103,13 +102,14 @@ public class KMeanClustering {
 				}
 
 				System.out.println(" Old centroid value for Cluster: " + key + " Old Value : "
-						+ Arrays.toString(clusterValues) + " New Values: " + Arrays.toString(newCentriodValues) + " Previous Number of datapoints in this cluster: " + tempfeaturesData.size());
+						+ Arrays.toString(clusterValues) + " New Values: " + Arrays.toString(newCentriodValues)
+						+ " Previous Number of datapoints in this cluster: " + tempfeaturesData.size());
 
 				// Reassign new mean values to centroids based on mean calculation done above.
 				clusterCentroidValues.put(key, newCentriodValues);
 
 				// This is method does reassignment of Cluster based on eulucdean distance
-				coreClassifyingLogic(tempfeaturesData,key);
+				coreClassifyingLogic(tempfeaturesData, key);
 
 			}
 
@@ -169,13 +169,12 @@ public class KMeanClustering {
 			classifiedData.add(data);
 		}
 	}
-	
-	
+
 	/*
 	 * 
 	 */
-	private void coreClassifyingLogic(List<Double[]> tempfeaturesData,String previousKey) {
-		
+	private void coreClassifyingLogic(List<Double[]> tempfeaturesData, String previousKey) {
+
 		List<Integer> indexToBeRemoved = new ArrayList<>();
 		for (int i = 0; i < tempfeaturesData.size(); i++) {
 			Double euclideanDistance = Double.MAX_VALUE;
@@ -200,8 +199,7 @@ public class KMeanClustering {
 				}
 			}
 
-			if(!destinationCluster.equalsIgnoreCase(previousKey))
-			{
+			if (!destinationCluster.equalsIgnoreCase(previousKey)) {
 				List<Double[]> classifiedData = clusters.get(destinationCluster);
 
 				if (classifiedData == null) {
@@ -209,17 +207,42 @@ public class KMeanClustering {
 				}
 
 				classifiedData.add(data);
-				// Cannot remove index in same iteration because of concurrent modification exception
+				// Cannot remove index in same iteration because of concurrent modification
+				// exception
 				indexToBeRemoved.add(i);
 			}
-				
+
 		}
-		
-		for(int i =0;i<indexToBeRemoved.size();i++)
-		{
+
+		for (int i = 0; i < indexToBeRemoved.size(); i++) {
 			tempfeaturesData.remove(i);
 		}
-		
+
+	}
+
+	public String predictCategory(Double[] data) {
+		Double euclideanDistance = Double.MAX_VALUE;
+		String destinationCluster = "";
+
+		for (String clusterKey : clusterCentroidValues.keySet()) {
+			Double[] clusterCentroids = clusterCentroidValues.get(clusterKey);
+			Double sumSquareDistance = 0.00d;
+			for (int k = 0; k < data.length; k++) {
+
+				Double tempDistance = (clusterCentroids[k] - data[k]);
+				Double squareDistance = Math.pow(tempDistance, 2);
+				sumSquareDistance = sumSquareDistance + squareDistance;
+			}
+
+			Double clusterSpecificDistance = Math.sqrt(sumSquareDistance);
+
+			if (clusterSpecificDistance.compareTo(euclideanDistance) < 0) {
+				euclideanDistance = clusterSpecificDistance;
+				destinationCluster = clusterKey;
+			}
+		}
+
+		return destinationCluster;
 	}
 
 	public static void main(String[] args) {
@@ -230,7 +253,7 @@ public class KMeanClustering {
 		Double[] data2 = { .23d, .84d, .47d };
 		Double[] data3 = { .21d, .64d, .97d };
 		Double[] data4 = { .13d, .84d, .899d };
-		
+
 		dataSet.add(data4);
 		dataSet.add(data3);
 		dataSet.add(data2);
@@ -242,8 +265,16 @@ public class KMeanClustering {
 
 		clusterCentroidValues.forEach((k, val) -> {
 
-			System.out.println(" ClusterId: " + k + " Centriod values: " + Arrays.toString(val));
+			System.out.println(" ClusterId/CategoryId: " + k + " Centriod values: " + Arrays.toString(val));
 		});
+
+		// Test with new point
+		Double[] data5 = { .131d, .841d, .89d };
+
+		String category = clustering.predictCategory(data5);
+
+		System.out.println(category);
+
 	}
 
 }
